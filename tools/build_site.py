@@ -2,7 +2,7 @@ from pathlib import Path
 import shutil,hashlib
 root=Path(__file__).resolve().parent.parent
 out=root/'_site';out.mkdir(exist_ok=True)
-for name in ['index.html','style.css','app.js','content.js','reading.js','reading-content.js','experience.js','fortune.js','fortune-content.js','manifest.webmanifest']:
+for name in ['index.html','style.css','comic.css','app.js','content.js','reading.js','reading-content.js','experience.js','fortune.js','fortune-content.js','manifest.webmanifest']:
  shutil.copy2(root/name,out/name)
 for name in ['icons','vendor']:
  shutil.copytree(root/name,out/name,dirs_exist_ok=True)
