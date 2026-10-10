@@ -1,0 +1,5 @@
+_site/
+research/vendor/
+verification/*.png
+__pycache__/
+data/reference/kasi-calendar-2026.txt

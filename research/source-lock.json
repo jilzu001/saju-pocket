@@ -1,0 +1,22 @@
+[
+  {
+    "name": "korean-lunar-calendar",
+    "version": "0.4.0",
+    "license": "MIT",
+    "url": "https://registry.npmjs.org/korean-lunar-calendar/-/korean-lunar-calendar-0.4.0.tgz",
+    "repository": "git+https://github.com/usingsky/korean_lunar_calendar_js.git",
+    "integrity": "sha512-kJXyH3sI/butJxCBtsLXlMJsl5qqNKNjduf1Na0s7XXwP+D/Wdlx0R0/S5ygxPVFSXf/JZ3bBKaCP6bGWhgZ0w==",
+    "downloaded": "2026-10-11",
+    "status": "candidate-not-production-validated"
+  },
+  {
+    "name": "lunar-javascript",
+    "version": "1.7.7",
+    "license": "MIT",
+    "url": "https://registry.npmjs.org/lunar-javascript/-/lunar-javascript-1.7.7.tgz",
+    "repository": "git+https://github.com/6tail/lunar-javascript.git",
+    "integrity": "sha512-u/KYiwPIBo/0bT+WWfU7qO1d+aqeB90Tuy4ErXenr2Gam0QcWeezUvtiOIyXR7HbVnW2I1DKfU0NBvzMZhbVQw==",
+    "downloaded": "2026-10-11",
+    "status": "candidate-not-production-validated"
+  }
+]
