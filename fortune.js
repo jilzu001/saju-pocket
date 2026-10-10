@@ -89,4 +89,4 @@ function daeunDoc(person,c,now){
   section('긴 흐름을 오늘에 가져오기',['지금까지 반복해서 도움이 된 경험과 자주 부담이 된 조건을 하나씩 적어 보세요. 대운의 질문이 실제 생활에 맞는지 확인하며 사용할 수 있습니다.'],[(s||ns).action,'다음 구간에도 유지할 습관과 줄일 부담을 하나씩 기록하기'])
  ]);
 }
-export function buildFortuneReadings(person,{now=new Date()}={}){const context=currentFortune(now);return {context,daeun:daeunDoc(person,context,now),year:periodDoc(person,context,'year'),month:periodDoc(person,context,'month'),day:periodDoc(person,context,'day')};}
+export function buildFortuneReadings(person,{now=new Date()}={}){const context=currentFortune(now);const daeun=daeunDoc(person,context,now),d=calculateDaeun(person,now);if(!d.missing)daeun.timeline=d.list.map(x=>({age:`${x.startAge}~${x.endAge}세`,label:name(x),theme:storyFor(person,x).theme,current:x.startAge===d.current?.startAge,next:x.startAge===d.next?.startAge}));return {context,daeun,year:periodDoc(person,context,'year'),month:periodDoc(person,context,'month'),day:periodDoc(person,context,'day')};}

@@ -119,7 +119,7 @@ export function pairFeatures(a,b){
 
 export function buildPairReading(a,b,{relation='연인',date=koreanDate()}={}){
   parseDate(date);
-  if(!RELATION_STORIES[relation])throw new TypeError('관계는 연인·친구·동료 중 하나여야 합니다.');
+  if(!RELATION_STORIES[relation])throw new TypeError('관계는 연인·부부·친구·동료 중 하나여야 합니다.');
   const {left:l,right:r,direction,branch}=pairFeatures(a,b),context=RELATION_STORIES[relation];
   let an=a.input.name||'나',bn=b.input.name||'상대';if(an===bn){an+=' A';bn+=' B';}
   const labels={same:'같은 언어에 다른 경험을 더하는 사이',output:'아이디어를 다음 행동으로 잇는 사이',resource:'아이디어를 다음 행동으로 잇는 사이',control:'다른 기준으로 균형을 찾는 사이',pressure:'다른 기준으로 균형을 찾는 사이'};
