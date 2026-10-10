@@ -14,12 +14,12 @@ const shot=n=>path.join(__dirname,n+'.png');
  await p.locator('#birth').fill('1990-05-15');
  await p.locator('#time').fill('14:30');
  await p.locator('#profile-form button').click();
- await p.locator('#mbti').selectOption('INFJ');
+ await p.locator('#mbti').selectOption('INFJ');await p.locator('#gender').selectOption('남');
  await p.locator('#profile-form button').click();
  const annual=await p.evaluate(async()=>{const {currentAnnualPillar}=await import('./app.js');return ['2026-01-15T12:00:00Z','2026-02-15T12:00:00Z'].map(date=>{const a=currentAnnualPillar(new Date(date));return a.stemKo+a.branchKo;});});
  assert.deepEqual(annual,['을사','병오'],'Annual context changes at ipchun, not Jan 1 or fixed July');
  const docs=[];
- for(let i=0;i<7;i++){
+ for(let i=0;i<10;i++){
   await p.locator(`[data-tab="${i}"]`).click();
   await p.locator('#read-more').click();
   await p.locator('#reading-dialog').waitFor({state:'visible'});
@@ -43,7 +43,7 @@ const shot=n=>path.join(__dirname,n+'.png');
  const fit=[];
  for(const [width,height] of [[320,568],[360,640],[390,780],[412,915]]){
   await p.setViewportSize({width,height});
-  for(let i=0;i<7;i++){
+  for(let i=0;i<10;i++){
    await p.locator(`[data-tab="${i}"]`).click();
    const box=await p.locator('#read-more').boundingBox();
    assert(box.y>=0&&box.y+box.height<=height,`Read button clipped at ${width}, tab${i}`);
@@ -61,9 +61,9 @@ const shot=n=>path.join(__dirname,n+'.png');
   fit.push([width,height]);
  }
  await p.locator('#home').click();await p.locator('#pair').click();
- await p.locator('#profile-form button').click();await p.locator('#profile-form button').click();
+ await p.locator('[data-pair-profile="0"]').click();await p.locator('#pair-new').click();
  await p.locator('#name').fill('상대');await p.locator('#birth').fill('1992-11-03');
- await p.locator('#profile-form button').click();await p.locator('#relation').selectOption('동료');await p.locator('#profile-form button').click();
+ await p.locator('#profile-form button').click();await p.locator('#profile-form button').click();await p.locator('#pair-relation').selectOption('동료');await p.locator('#pair-open').click();
  for(let i=0;i<3;i++){
   await p.locator(`[data-tab="${i}"]`).click();await p.locator('#read-more').click();
   const text=await p.locator('#reading-content').innerText();assert(text.length>600);assert(text.includes('동료'));

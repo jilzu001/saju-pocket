@@ -20,3 +20,10 @@
 - https://astro.kasi.re.kr/kor/life/post/calendarData?search_year=2026
 
 달력 자료는 사주풀이의 과학적 타당성을 입증하지 않는다. 엔진은 검증한 대표 사례 외 전체 날짜 정밀성 인증을 받지 않았으며, 절입 경계 근처에는 계산 차이가 있을 수 있다.
+
+
+### 운의 흐름 보완 (2026-10-11)
+
+대운은 기존 MIT ssaju 0.2.0의 `daeun` 결과를 사용한다. 현재와 다음 구간, 순행/역행, 절입까지 일수, 시작 나이(3일/1년·반올림), 만 나이 구간을 함께 표시한다. 남·여 기준을 임의 추정하지 않는다. 시간 모름은 정오 참고값이며 출생 절기 경계일에는 보류한다. 세운·월운·일운은 현재 한국시간의 년주·월주·일주를 사용하고, 다음 절입/자정 전후를 검증했다. 월운은 양력 1일 단위가 아니다.
+
+출처: https://github.com/golbin/ssaju (라이브러리 API·MIT), 강의 자료 https://elearning.kocw.net/document/lec/2012/Kicu/AnSungJae/02.pdf (절입 월주), https://www.gachon.ac.kr/bbs/asiaculture/398/130484/download.do (대운·세운 명리 개념). 외부 해석 문장은 복사하지 않으며 `fortune-content.js`는 자체 작성이다.

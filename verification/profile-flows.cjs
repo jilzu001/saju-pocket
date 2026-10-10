@@ -1,0 +1,35 @@
+const {chromium}=require('C:/Users/jilzu/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const assert=require('node:assert/strict');
+const path=require('node:path');
+(async()=>{
+ const browser=await chromium.launch({channel:'msedge',headless:true});
+ const context=await browser.newContext({viewport:{width:390,height:780},isMobile:true});
+ const p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
+ await p.clock.install({time:new Date('2026-10-11T03:00:00Z')});
+ await p.goto(process.env.TEST_URL||'http://localhost:8766/');
+ const input=async(name,birth)=>{await p.locator('#name').fill(name);await p.locator('#birth').fill(birth);await p.locator('#profile-form button').click();await p.locator('#profile-form button').click();};
+ const saved=async()=>{await p.locator('#menu').click();await p.locator('#open-saved').click();};
+ await p.locator('#start').click();await input('가람','1990-10-12');
+ await p.locator('[data-tab="5"]').click();assert((await p.locator('.eyebrow').last().innerText()).includes('35'));
+ await p.locator('[data-tab="10"]').click();const before=await p.locator('.mission').innerText();
+ await p.clock.fastForward(86400000);
+ assert.notEqual(await p.locator('.mission').innerText(),before,'Mission changes on the next KST day');
+ await p.locator('#quick').click();assert(await p.locator('[data-tab="0"]').getAttribute('aria-selected')==='true');
+ await p.locator('[data-tab="5"]').click();assert((await p.locator('.eyebrow').last().innerText()).includes('36'),'Rereading uses current age');
+ await saved();await p.locator('[data-mission="0"]').click();assert(await p.locator('#done').isVisible());await p.locator('#done').click();
+ await p.locator('#home').click();assert((await p.locator('#start').innerText()).includes('새 사주 펼치기'));
+ await p.locator('#start').click();await input('나래','1992-11-03');
+ await saved();assert.equal(await p.locator('.saved-profile').count(),2);await p.locator('[data-open="1"]').click();assert((await p.locator('.card-label').innerText()).includes('가람'));
+ await p.locator('#home').click();await p.locator('#pair').click();await p.locator('[data-pair-profile="1"]').click();
+ assert((await p.locator('#dialog-body').innerText()).includes('가람의 사주를 선택'));
+ await p.locator('[data-pair-profile="0"]').click();await p.locator('#pair-relation').selectOption('친구');await p.locator('#pair-open').click();
+ await p.locator('#read-more').click();const pairText=await p.locator('#reading-content').innerText();assert(pairText.includes('가람')&&pairText.includes('나래')&&pairText.includes('친구'));await p.locator('#close-reading').click();
+ await p.locator('#edit').click();await p.locator('[data-pair-profile="0"]').click();await p.keyboard.press('Escape');assert.equal(await p.locator('#dialog').isVisible(),false);assert.equal(await p.locator('[data-tab="0"]').innerText(),'우리의 그림','Cancelling preserves the existing result');
+ await p.locator('#edit').click();await p.locator('#pair-new').click();await input('다온','1995-03-04');await p.locator('[data-pair-profile]').filter({hasText:'가람'}).click();await p.locator('#pair-open').click();
+ await saved();assert.equal(await p.locator('.saved-profile').count(),3);
+ for(const [width,height] of [[320,568],[390,780]]){await p.setViewportSize({width,height});assert(await p.locator('#dialog').evaluate(e=>e.scrollWidth<=e.clientWidth+1));await p.screenshot({path:path.join(__dirname,`saved-profiles-${width}.png`)});}
+ await p.locator('.saved-profile').filter({hasText:'가람'}).locator('[data-mission]').click();assert((await p.locator('#done').innerText()).includes('완료'),'Stored completion survives switching people and pairing');
+ await p.reload();await p.locator('.mission').waitFor();await saved();assert.equal(await p.locator('.saved-profile').count(),3,'All saved people survive reload');
+ assert.deepEqual(errors,[]);console.log(JSON.stringify({savedReread:true,currentAgeAndMission:true,twoSavedProfiles:true,newAndSaved:true,cancelPreservesResult:true,storagePreserved:true,mobileDialogFit:true,errors}));
+ await browser.close();
+})().catch(e=>{console.error(e);process.exitCode=1});
